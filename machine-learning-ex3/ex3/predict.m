@@ -22,8 +22,8 @@ p = zeros(size(X, 1), 1);
 %
 
 
-z = sigmoid([ones(m, 1) X] * Theta1');
-size(z)
+z2 = ([ones(m, 1) X] * Theta1');
+a2 = sigmoid(z2);
 % for i=1:m
 % 	[tmp,a2(i)] = max(z(i,:),[],2);
 % end
@@ -31,13 +31,15 @@ size(z)
 % size(a2)
 
 
-z2 = sigmoid([ones(size(z,1), 1) z] * Theta2');
+z3 = ([ones(size(a2,1), 1) a2] * Theta2');
+
+a3 = sigmoid(z3);
+size(a3)
+pause;
 
 for i=1:m
-	[tmp,a3(i)] = max(z2(i,:),[],2);
+	[tmp,p(i)] = max(a3(i,:),[],2);
 end
-z2
-p = a3;
 
 
 
