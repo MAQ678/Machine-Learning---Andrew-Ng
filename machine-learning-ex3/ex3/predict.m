@@ -22,10 +22,22 @@ p = zeros(size(X, 1), 1);
 %
 
 
+z = sigmoid([ones(m, 1) X] * Theta1');
+size(z)
+% for i=1:m
+% 	[tmp,a2(i)] = max(z(i,:),[],2);
+% end
+
+% size(a2)
 
 
+z2 = sigmoid([ones(size(z,1), 1) z] * Theta2');
 
-
+for i=1:m
+	[tmp,a3(i)] = max(z2(i,:),[],2);
+end
+z2
+p = a3;
 
 
 
