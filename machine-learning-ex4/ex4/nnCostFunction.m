@@ -93,20 +93,8 @@ end
 TmpTheta1 = Theta1.^2;
 TmpTheta2 = Theta2.^2;
 
-% J = J * (-1/m) + ((lambda/(2*m)) * ( sum(sum(TmpTheta1,1)) - sum(sum(TmpTheta1(:,end),1))  + sum(sum(TmpTheta2,1)) - sum(sum(TmpTheta2(:,end),1)) ));
+J = J * (-1/m) + ((lambda/(2*m)) * ( sum(sum(TmpTheta1,1)) - sum(sum(TmpTheta1(:,1),1))  + sum(sum(TmpTheta2,1)) - sum(sum(TmpTheta2(:,1),1)) ));
 
-tmpJ = 0;
-for i=1:hidden_layer_size
-	for j=1:input_layer_size
-		tmpJ = tmpJ + TmpTheta1(i,j);
-	end
-end
-for i=1:num_labels
-	for j=1:hidden_layer_size
-		tmpJ = tmpJ + TmpTheta2(i,j);
-	end
-end
-J = J * (-1/m) + (lambda/(2*m)) * tmpJ;
 
 % -------------------------------------------------------------
 
