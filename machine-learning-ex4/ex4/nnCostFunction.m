@@ -96,10 +96,30 @@ J = J * (-1/m) + ((lambda/(2*m)) * ( sum(sum(TmpTheta1,1)) - sum(sum(TmpTheta1(:
 
 
 % -------------------------------------------------------------
+% Theta1 = 25*401
+% Theta2 = 10*26
+for t=1:m
+	a_1 = X(t,:);
+	a_1 = [1 ; a_1];
 
+	z_2 = a_1 * Theta1';
+	a_2 = sigmoid(z_2);
+	a_2 = [1 ; a_2];
 
+	z_3 = a_2 * Theta2';
+	a_3 = sigmoid(z_3);
 
+	delt_3 = a_3 - yn(t); % important phase (yn)
 
+	delt_2 = Theta2' * delt_3 .* sigmoidGradient(z_2);
+	delt_2 = delt_2(2:end);
+
+	bigDel_1 = bigDel_1 + delt_2 * a_2(2:end);
+
+	bigDel_2 = bigDel_2 + delt_3 * a_3;
+end
+Theta1_grad = bigDel_1 * (1/m);
+Theta2_grad = bigDel_2 * (1/m);
 % =========================================================================
 
 % Unroll gradients
