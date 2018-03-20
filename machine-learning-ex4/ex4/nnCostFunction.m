@@ -63,7 +63,7 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
-
+a1 = X;
 
 z2 =([ones(m,1) X] * Theta1');
 a2 = sigmoid(z2);
@@ -97,13 +97,7 @@ J = J * (-1/m) + ((lambda/(2*m)) * ( sum(sum(TmpTheta1,1)) - sum(sum(TmpTheta1(:
 
 % -------------------------------------------------------------
 
-delt3 = h - y;
-gPrimeZ2 = a2 .* (1-a2);
-delt2 = Theta2 * delt3 .* gPrimeZ2;
 
-
-bigDel2 = delt3 * a2';
-size(delt3)
 
 
 % =========================================================================
