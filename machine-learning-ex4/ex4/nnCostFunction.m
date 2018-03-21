@@ -98,28 +98,38 @@ J = J * (-1/m) + ((lambda/(2*m)) * ( sum(sum(TmpTheta1,1)) - sum(sum(TmpTheta1(:
 % -------------------------------------------------------------
 % Theta1 = 25*401
 % Theta2 = 10*26
+% size(Theta1)
+bigDel_1 = zeros(size(Theta1));
+bigDel_2 = zeros(size(Theta2));
 for t=1:m
-	a_1 = X(t,:);
+	a_1 = X(t,:)';
 	a_1 = [1 ; a_1];
 
-	z_2 = a_1 * Theta1';
+	z_2 = Theta1 * a_1;
 	a_2 = sigmoid(z_2);
 	a_2 = [1 ; a_2];
 
-	z_3 = a_2 * Theta2';
+	z_3 = Theta2 * a_2;
 	a_3 = sigmoid(z_3);
 
-	delt_3 = a_3 - yn(t); % important phase (yn)
 
-	delt_2 = Theta2' * delt_3 .* sigmoidGradient(z_2);
-	delt_2 = delt_2(2:end);
+	delt_3 = a_3 - yn(t,:)'; % important phase (yn), here beware of using only yn(t) or yn(t,:)
+							 % if you use yn(t,:), then dimension is 1 * 10 , whether dimension of
+							 % a_3 is 10 * 1, and matlab will give you a result
 
-	bigDel_1 = bigDel_1 + delt_2 * a_2(2:end);
 
-	bigDel_2 = bigDel_2 + delt_3 * a_3;
+	delt_2 = (Theta2(:,2:end)' * delt_3);	% an error will occur if you use  only Theta2 and in next line
+										 	% you use delt_2 = delt_2(2:end);
+
+	delt_2 = delt_2 .* sigmoidGradient(z_2);
+
+	% size(a_1)
+	bigDel_1 = bigDel_1 + delt_2 * a_1';
+
+	bigDel_2 = bigDel_2 + delt_3 * a_2';
 end
-Theta1_grad = bigDel_1 * (1/m);
-Theta2_grad = bigDel_2 * (1/m);
+Theta1_grad = (1/m) * bigDel_1;
+Theta2_grad = (1/m) * bigDel_2;
 % =========================================================================
 
 % Unroll gradients
